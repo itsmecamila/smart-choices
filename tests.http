@@ -1,0 +1,129 @@
+###------------------------------------------------------------------------------------------------------------------------------------------
+### ARQUIVO DE TESTES - NECESSÁRIO USAR EXTENSÃO "REST Client" (ou apenas copie as rotas e execute via WEB ou alguma API Client"
+### COMO USAR: Baixe a extensão, clique em "Send request" em cada caso de teste já preparado (ou escreva novos seguindo a estrutura se preferir)
+###------------------------------------------------------------------------------------------------------------------------------------------
+### Script para criar tabela do banco - Apenas execute-o 
+### Se a criação da tabela for bem sucedida, irá criar um arquivo chamado "setup_done.txt" na pasta /writable
+GET http://localhost:8080/setup-database HTTP/1.1
+
+###------------------------------------------------------------------------------------------------------------------------------------------
+### Criação de registro válido - Income (Entrada) - Altere os dados como desejar
+POST http://localhost:8080/create-register HTTP/1.1
+content-type: application/json
+
+  {
+    "title": "Venda de Bicicleta",
+    "value": 1200.00,
+    "type": "Income",
+    "date":"2025-01-01 00:00:00"
+  }
+
+###------------------------------------------------------------------------------------------------------------------------------------------
+### Criação de registro válido - Exchange (Saída)
+POST http://localhost:8080/create-register HTTP/1.1
+content-type: application/json
+
+  {
+    "title": "Pagamento de conta",
+    "value": 1200.00,
+    "type": "expense",
+    "date":"2025-01-01 00:00:00"
+  }
+
+###------------------------------------------------------------------------------------------------------------------------------------------
+### Busca de saldo final - Apenas execute-o 
+GET http://localhost:8080/balance HTTP/1.1
+content-type: application/json
+
+###------------------------------------------------------------------------------------------------------------------------------------------
+### Busca de saldo final com parâmetros - Preencha os parâmetros de start_date d end_date com as datas desejadas
+GET http://localhost:8080/balance?start_date=2025-01-01&end_date=2025-12-31 HTTP/1.1
+content-type: application/json
+
+###------------------------------------------------------------------------------------------------------------------------------------------
+### Criação de registro inválido - JSON vazio
+POST http://localhost:8080/create-register HTTP/1.1
+content-type: application/json
+
+  {}
+
+###------------------------------------------------------------------------------------------------------------------------------------------
+### Busca de registro inválido - Inexistente no banco (preencha "id" com um id inválido)
+GET http://localhost:8080/registers/id HTTP/1.1
+content-type: application/json
+
+###------------------------------------------------------------------------------------------------------------------------------------------
+### Busca de todos registros 
+GET http://localhost:8080/registers HTTP/1.1
+content-type: application/json
+
+###------------------------------------------------------------------------------------------------------------------------------------------
+### Deletar registro por parâmetro - Preencha o parâmetro "id" com um ID válido
+DELETE  http://localhost:8080/delete/id HTTP/1.1 HTTP/1.1
+content-type: application/json
+
+###------------------------------------------------------------------------------------------------------------------------------------------
+### Teste: Update registro por parâmetro - ID válido
+PATCH http://localhost:8080/update/2 HTTP/1.1 HTTP/1.1
+content-type: application/json
+
+  {
+    "title": "tatu",
+    "type": "Expense",
+    "date": "2000-02-02 20:00:00"
+  }
+
+###------------------------------------------------------------------------------------------------------------------------------------------
+### Update de registro por parâmetro - ID inválido / inexistente (altere o parâmetro "id" com um id que não exista)
+PATCH http://localhost:8080/update/id HTTP/1.1 HTTP/1.1
+content-type: application/json
+
+  {
+    "title": "uuuu",
+    "type": "oi"
+  }
+
+###------------------------------------------------------------------------------------------------------------------------------------------
+### Update de registro por parâmetro - JSON inválido
+PATCH http://localhost:8080/update/2 HTTP/1.1 HTTP/1.1
+content-type: application/json
+
+  {
+    "title": "uuuu"
+    "type": "oi"
+  }
+
+###------------------------------------------------------------------------------------------------------------------------------------------
+### Update de registro por parâmetro - JSON vazio
+PATCH http://localhost:8080/update/2 HTTP/1.1 HTTP/1.1
+content-type: application/json
+
+  {}
+
+###------------------------------------------------------------------------------------------------------------------------------------------
+### GERAR RELATÓRIOS POR PEÍODO - VIA WEB 
+### Copie as rotas e teste via navegador (não funcionam nessa extensão)
+### (preencha parâmetros de período correspondente start_date e end_date)
+
+###------------------------------------------------------------------------------------------------------------------------------------------
+### Formato PDF 
+GET http://localhost:8080/report?format=pdf&start_date=2020-02-01&end_date=2024-02-25 HTTP/1.1
+content-type: application/json
+
+###------------------------------------------------------------------------------------------------------------------------------------------
+### Formato XLSX (Essa rota está desativada)
+GET http://localhost:8080/report?format=excel&start_date=2020-02-01&end_date=2024-02-25 HTTP/1.1
+content-type: application/json
+
+###------------------------------------------------------------------------------------------------------------------------------------------
+### Formato CSV
+GET http://localhost:8080/report?format=csv&start_date=2020-02-01&end_date=2024-02-25 HTTP/1.1
+content-type: application/json
+
+
+###------------------------------------------------------------------------------------------------------------------------------------------
+### GERAR RELATÓRIOS POR PEÍODO - VIA CLI 
+### Abra o terminal na raiz execute "php spark report:generate" para rodar o CLI
+### Preencha os dados conforme orientado
+### O arquivo será criado na pasta writable/reports/arquivo.extensão
+
