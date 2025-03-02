@@ -56,12 +56,12 @@ Decisões inteligentes no código, escolhas sábias no seu bolso.
 #### Script de setup do banco
 
 ```http
-  GET /setup-database
+GET /setup-database
 ```
 #### Criar um registro
 
 ```http
-  POST /create-register
+POST /create-register
 ```
 
 ##### Exemplo:
@@ -75,12 +75,12 @@ Decisões inteligentes no código, escolhas sábias no seu bolso.
 ```
 #### Buscar todos registros
 ```http
-  GET  /registers
+GET  /registers
 ```
 
 #### Buscar registro por ID
 ```http
-  GET  /registers/id
+GET  /registers/id
 ```
 | Parâmetro   | Tipo       | Descrição                                   |
 | :---------- | :--------- | :------------------------------------------ |
@@ -88,7 +88,7 @@ Decisões inteligentes no código, escolhas sábias no seu bolso.
 
 #### Atualizar registro por ID (apenas um campo ou todos campos do exemplo)
 ```http
-  PATCH  /update/id
+PATCH  /update/id
 ```
 | Parâmetro   | Tipo       | Descrição                                   |
 | :---------- | :--------- | :------------------------------------------ |
@@ -106,7 +106,7 @@ Decisões inteligentes no código, escolhas sábias no seu bolso.
 
 #### Excluir registro por ID
 ```http
-  DELETE  /delete/id
+DELETE  /delete/id
 ```
 | Parâmetro   | Tipo       | Descrição                                   |
 | :---------- | :--------- | :------------------------------------------ |
@@ -114,11 +114,11 @@ Decisões inteligentes no código, escolhas sábias no seu bolso.
 
 #### Consultar saldo total atual
 ```http
-  GET /balance
+GET /balance
 ```
 #### Consultar saldo por período
 ```http
-  GET /balance?start_date=YYYY-MM-DD&end_date=YYYY-MM-DD
+GET /balance?start_date=YYYY-MM-DD&end_date=YYYY-MM-DD
 ```
 | Parâmetro   | Tipo       | Descrição                                   |
 | :---------- | :--------- | :------------------------------------------ |
@@ -126,7 +126,7 @@ Decisões inteligentes no código, escolhas sábias no seu bolso.
 
 #### Gerar relatório por formato de arquivo e período
 ```http
-  GET  /report?format=type&start_date=YYYY-MM-DD&end_date=YYYY-MM-DD
+GET  /report?format=type&start_date=YYYY-MM-DD&end_date=YYYY-MM-DD
 ```
 | Parâmetro   | Tipo       | Descrição                                   |
 | :---------- | :--------- | :------------------------------------------ |
@@ -184,7 +184,7 @@ Inicie o servidor
 Execute a rota de setup para criar a tabela do banco 
 
 ```http
-  GET /setup-database
+GET /setup-database
 ```
 Verifique se o arquivo setup_done.txt foi criado na pasta writable para confirmar criação da tabela
 
