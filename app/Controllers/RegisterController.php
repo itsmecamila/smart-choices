@@ -115,7 +115,7 @@ class RegisterController extends Controller{
     // Função q busca por ID
     public function getRegisterByID($id){
         // Se o ID for diferente de nulo e o registro buscado existir, retorna com sucesso 
-        if ($id && $data = $this->registerModel->find($id) != null) {
+        if ($id && ($data = $this->registerModel->find($id)) != null) {
             return $this->response->setJSON([
                 'status' => 'success',
                 'message' => 'Registro encontrado!',
@@ -149,8 +149,13 @@ class RegisterController extends Controller{
             // Pego json da requisição
             $newData = $this->request->getJSON(true);
             // Tento atualizar e guardo resultado
-            $new = $this->registerModel->convertType($newData);
-            $allowed = $this->registerModel->update($id, $new);
+
+            // Verifico se existe alteração para campo type
+            if(isset($newData['type'])){
+                $newData = $this->registerModel->convertType($newData);
+            }   
+    
+            $allowed = $this->registerModel->update($id, $newData);
 
             // Se der certo, será TRUE, retorna sucesso
             if($allowed){
