@@ -2,6 +2,7 @@
 ### ARQUIVO DE TESTES - NECESSÁRIO USAR EXTENSÃO "REST Client" (ou apenas copie as rotas e execute via WEB ou alguma API Client"
 ### COMO USAR: Baixe a extensão, clique em "Send request" em cada caso de teste já preparado (ou escreva novos seguindo a estrutura se preferir)
 ###------------------------------------------------------------------------------------------------------------------------------------------
+
 ### Script para criar tabela do banco - Apenas execute-o 
 ### Se a criação da tabela for bem sucedida, irá criar um arquivo chamado "setup_done.txt" na pasta /writable
 GET http://localhost:8080/setup-database HTTP/1.1
@@ -19,7 +20,7 @@ content-type: application/json
   }
 
 ###------------------------------------------------------------------------------------------------------------------------------------------
-### Criação de registro válido - Exchange (Saída)
+### Criação de registro válido - Expense (Saída)
 POST http://localhost:8080/create-register HTTP/1.1
 content-type: application/json
 
@@ -48,7 +49,7 @@ content-type: application/json
   {}
 
 ###------------------------------------------------------------------------------------------------------------------------------------------
-### Busca de registro inválido - Inexistente no banco (preencha "id" com um id inválido)
+### Busca de registro único (preencha "id" com um id válido)
 GET http://localhost:8080/registers/id HTTP/1.1
 content-type: application/json
 
@@ -63,14 +64,13 @@ DELETE  http://localhost:8080/delete/id HTTP/1.1 HTTP/1.1
 content-type: application/json
 
 ###------------------------------------------------------------------------------------------------------------------------------------------
-### Teste: Update registro por parâmetro - ID válido
-PATCH http://localhost:8080/update/2 HTTP/1.1 HTTP/1.1
+### Teste: Update registro por parâmetro - ID válido (preencha "id" com valor válido)
+PATCH http://localhost:8080/update/id HTTP/1.1 HTTP/1.1
 content-type: application/json
 
   {
-    "title": "tatu",
-    "type": "Expense",
-    "date": "2000-02-02 20:00:00"
+    "title": "oi",
+    "value": 470
   }
 
 ###------------------------------------------------------------------------------------------------------------------------------------------
@@ -101,7 +101,7 @@ content-type: application/json
   {}
 
 ###------------------------------------------------------------------------------------------------------------------------------------------
-### GERAR RELATÓRIOS POR PEÍODO - VIA WEB 
+### GERAR RELATÓRIOS POR PERÍODO - VIA WEB 
 ### Copie as rotas e teste via navegador (não funcionam nessa extensão)
 ### (preencha parâmetros de período correspondente start_date e end_date)
 
@@ -111,7 +111,7 @@ GET http://localhost:8080/report?format=pdf&start_date=2020-02-01&end_date=2024-
 content-type: application/json
 
 ###------------------------------------------------------------------------------------------------------------------------------------------
-### Formato XLSX (Essa rota está desativada)
+### Formato XLSX 
 GET http://localhost:8080/report?format=excel&start_date=2020-02-01&end_date=2024-02-25 HTTP/1.1
 content-type: application/json
 
@@ -122,7 +122,7 @@ content-type: application/json
 
 
 ###------------------------------------------------------------------------------------------------------------------------------------------
-### GERAR RELATÓRIOS POR PEÍODO - VIA CLI 
+### GERAR RELATÓRIOS POR PERÍODO - VIA CLI 
 ### Abra o terminal na raiz execute "php spark report:generate" para rodar o CLI
 ### Preencha os dados conforme orientado
 ### O arquivo será criado na pasta writable/reports/arquivo.extensão
