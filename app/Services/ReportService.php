@@ -115,7 +115,7 @@ class ReportService{
             $html .= '<tr>
                 <td>' . $register['id'] . '</td>
                 <td>' . $register['title'] . '</td>
-                <td>' . number_format($register['value'], 2, ',', '.') . '</td>
+                <td>' . 'R$ '. number_format($register['value'], 2, ',', '.') . '</td>
                 <td>' . ($register['type'] === 'income' ? 'Entrada' : 'Saída') . '</td>
                 <td>' . date('d/m/Y H:i:s', strtotime($register['date'])) . '</td>
             </tr>';
@@ -138,8 +138,7 @@ class ReportService{
         $pdf->stream('relatorio_financeiro.pdf', ['Attachment' => false]); // Define o nome do arquivo de saída
         exit; // Encerra o script
     }
-
-    // Essa função funciona apenas via comando CLI, rota web desativada
+    
     public function generateExcel($data, $balance, $filePath = null) {
             $spreadsheet = new Spreadsheet(); // Cria um novo objeto Spreadsheet
             $sheet = $spreadsheet->getActiveSheet(); // Pega a aba ativa do Spreadsheet
@@ -177,6 +176,7 @@ class ReportService{
                 return $filePath;
             }
     
+            ob_clean();
             header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'); // Define o tipo de arquivo
             header('Content-Disposition: attachment; filename="relatorio_financeiro.xlsx"'); // Define o nome do arquivo
             $writer->save('php://output'); // Salva o arquivo
