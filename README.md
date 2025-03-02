@@ -1,68 +1,212 @@
-# CodeIgniter 4 Application Starter
+![Gif from movie Ratatoille](.github/surprise_me.gif)
 
-## What is CodeIgniter?
+# 🎲 Smart Choices
 
-CodeIgniter is a PHP full-stack web framework that is light, fast, flexible and secure.
-More information can be found at the [official site](https://codeigniter.com).
+Decisões inteligentes no código, escolhas sábias no seu bolso. 
 
-This repository holds a composer-installable app starter.
-It has been built from the
-[development repository](https://github.com/codeigniter4/CodeIgniter4).
 
-More information about the plans for version 4 can be found in [CodeIgniter 4](https://forum.codeigniter.com/forumdisplay.php?fid=28) on the forums.
 
-You can read the [user guide](https://codeigniter.com/user_guide/)
-corresponding to the latest version of the framework.
+## 🪄 Funcionalidades
 
-## Installation & updates
+- **CRUD de Registros**
+    - Criação de registros
+    - Busca de registros por ID
+    - Busca de todos registros
+    - Exclusão de registro por ID
+    - Atualização de registro (PATCH) por ID
+- **Script de setup para banco de dados** 
+    - Via requisição GET
+- **Cálculo de saldo dinâmico** 
+    - Via requisição GET
+    - Período total
+    - Período específico (passagem por parâmetros)
+- **Geração de relatórios com base em período de tempo**
+    - Formatos disponíveis: CSV, PDF e XLSL
+    - Via requisição GET
+    - Via CLI (Command Line Interface)
 
-`composer create-project codeigniter4/appstarter` then `composer update` whenever
-there is a new release of the framework.
+## 🧬 Stacks
 
-When updating, check the release notes to see if there are any changes you might need to apply
-to your `app` folder. The affected files can be copied or merged from
-`vendor/codeigniter4/framework/app`.
+**Back-End:** 
+- PHP
+- MySQL
+- CodeIgniter
 
-## Setup
+**Bibliotecas**: 
+- DomPDF 
+- PHPSpreadSheet
 
-Copy `env` to `.env` and tailor for your app, specifically the baseURL
-and any database settings.
 
-## Important Change with index.php
+## 🫀 Documentação da API
 
-`index.php` is no longer in the root of the project! It has been moved inside the *public* folder,
-for better security and separation of components.
+### Estrutura da tabela do banco
 
-This means that you should configure your web server to "point" to your project's *public* folder, and
-not to the project root. A better practice would be to configure a virtual host to point there. A poor practice would be to point your web server to the project root and expect to enter *public/...*, as the rest of your logic and the
-framework are exposed.
+| Campo   | Tipo       | Descrição                                   |
+| :---------- | :--------- | :------------------------------------------ |
+| `id`      | `int` | **Obrigatório**. O ID do registro |
+| `title`      | `string` | **Obrigatório**. Título do registro |
+| `value`      | `decimal` | **Obrigatório**. Valor do registro |
+| `type`      | `enum` | **Obrigatório**. Tipo de registro: `income` / `expense`
+| `date`      | `timestamp` | **Obrigatório**. Data real do registro|
+| `created_at`      | `timestamp` | **Automático**. Data de criação do registro
+| `updated_at`      | `timestamp` | **Automático**. Data da última atualização
 
-**Please** read the user guide for a better explanation of how CI4 works!
+### Rotas
 
-## Repository Management
+#### Script de setup do banco
 
-We use GitHub issues, in our main repository, to track **BUGS** and to track approved **DEVELOPMENT** work packages.
-We use our [forum](http://forum.codeigniter.com) to provide SUPPORT and to discuss
-FEATURE REQUESTS.
+```http
+  GET /setup-database
+```
+#### Criar um registro
 
-This repository is a "distribution" one, built by our release preparation script.
-Problems with it can be raised on our forum, or as issues in the main repository.
+```http
+  POST /create-register
+```
 
-## Server Requirements
+##### Exemplo:
+```json
+{
+    "title": "Bilhete da loteria",
+    "value": 2500000,
+    "type": "income",
+    "date":"2025-03-02 12:30:00"
+}
+```
+#### Buscar todos registros
+```http
+  GET  /registers
+```
 
-PHP version 8.1 or higher is required, with the following extensions installed:
+#### Buscar registro por ID
+```http
+  GET  /registers/id
+```
+| Parâmetro   | Tipo       | Descrição                                   |
+| :---------- | :--------- | :------------------------------------------ |
+| `id`      | `int` | **Obrigatório**. O ID do registro |
 
-- [intl](http://php.net/manual/en/intl.requirements.php)
-- [mbstring](http://php.net/manual/en/mbstring.installation.php)
+#### Atualizar registro por ID (apenas um campo ou todos campos do exemplo)
+```http
+  PATCH  /update/id
+```
+| Parâmetro   | Tipo       | Descrição                                   |
+| :---------- | :--------- | :------------------------------------------ |
+| `id`      | `int` | **Obrigatório**. O ID do registro |
 
-> [!WARNING]
-> - The end of life date for PHP 7.4 was November 28, 2022.
-> - The end of life date for PHP 8.0 was November 26, 2023.
-> - If you are still using PHP 7.4 or 8.0, you should upgrade immediately.
-> - The end of life date for PHP 8.1 will be December 31, 2025.
+##### Exemplo:
+```json
+{
+    "title": "Bilhete da loteria",
+    "value": 2500000,
+    "type": "income",
+    "date":"2025-03-02 12:30:00"
+}
+```
 
-Additionally, make sure that the following extensions are enabled in your PHP:
+#### Excluir registro por ID
+```http
+  DELETE  /delete/id
+```
+| Parâmetro   | Tipo       | Descrição                                   |
+| :---------- | :--------- | :------------------------------------------ |
+| `id`      | `int` | **Obrigatório**. O ID do registro |
 
-- json (enabled by default - don't turn it off)
-- [mysqlnd](http://php.net/manual/en/mysqlnd.install.php) if you plan to use MySQL
-- [libcurl](http://php.net/manual/en/curl.requirements.php) if you plan to use the HTTP\CURLRequest library
+#### Consultar saldo total atual
+```http
+  GET /balance
+```
+#### Consultar saldo por período
+```http
+  GET /balance?start_date=YYYY-MM-DD&end_date=YYYY-MM-DD
+```
+| Parâmetro   | Tipo       | Descrição                                   |
+| :---------- | :--------- | :------------------------------------------ |
+| `id`      | `int` | **Obrigatório**. O ID do registro |
+
+#### Gerar relatório por formato de arquivo e período
+```http
+  GET  /report?format=type&start_date=YYYY-MM-DD&end_date=YYYY-MM-DD
+```
+| Parâmetro   | Tipo       | Descrição                                   |
+| :---------- | :--------- | :------------------------------------------ |
+| `start_date`      | `string` | **Obrigatório**. Data inicial no formato YYYY-MM-DD |
+| `end_date`      | `string` | **Obrigatório**. Data final no formato YYYY-MM-DD |
+| `format`      | `string` | **Obrigatório**. Tipo de relatório: `csv` / `pdf` / `excel` 
+
+
+
+
+
+
+
+## ⚙️ Instruções de uso
+
+Clone o projeto
+
+```bash
+  git clone https://github.com/itsmecamila/smart-choices/
+```
+
+Entre no diretório do projeto
+
+```bash
+  cd smart-choices
+```
+
+Instale as dependências
+
+```bash
+  composer install
+```
+
+Renomeie o arquivo env 
+
+```bash
+  mv env .env
+```
+
+Edite o arquivo com suas configurações do banco de dados
+
+```env
+  database.default.hostname = localhost
+  database.default.database = nome_do_seu_banco
+  database.default.username = seu_username
+  database.default.password = sua_senha
+```
+
+Inicie o servidor
+
+```bash
+  php spark serve
+```
+
+Execute a rota de setup para criar a tabela do banco 
+
+```http
+  GET /setup-database
+```
+Verifique se o arquivo setup_done.txt foi criado na pasta writable para confirmar criação da tabela
+
+```bash
+  ls writable
+```
+
+## 🍷 CLI para  gerar relatórios
+
+Para gerar relatórios via *Command Line Interface*, execute esse comando e siga as instruções no terminal
+
+```bash
+  php spark report:generate
+```
+Os relatórios serão armazenados no diretório *reports* que será criado no diretório *writable*
+
+```bash
+  ls writable/reports
+```
+
+
+## 🐭 Chef
+
+- [@itsmecamila](https://www.github.com/itsmecamila)
+
