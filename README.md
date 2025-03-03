@@ -122,9 +122,10 @@ GET /balance?start_date=YYYY-MM-DD&end_date=YYYY-MM-DD
 ```
 | Parâmetro   | Tipo       | Descrição                                   |
 | :---------- | :--------- | :------------------------------------------ |
-| `id`      | `int` | **Obrigatório**. O ID do registro |
+| `start_date`      | `string` | **Obrigatório**. Data inicial no formato YYYY-MM-DD |
+| `end_date`      | `string` | **Obrigatório**. Data final no formato YYYY-MM-DD |
 
-#### Gerar relatório por formato de arquivo e período
+#### Gerar relatório por formato de arquivo e período de tempo
 ```http
 GET  /report?format=type&start_date=YYYY-MM-DD&end_date=YYYY-MM-DD
 ```
